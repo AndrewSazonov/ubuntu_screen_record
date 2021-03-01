@@ -22,17 +22,11 @@ jobs:
           curl -O -L https://github.com/AndrewSazonov/ubuntu_screen_record/releases/download/v0.1/easyDiffraction_Linux_x86-64_v0.0.5_ubuntu-18.04.zip
           unzip easyDiffraction_Linux_x86-64_v0.0.5_ubuntu-18.04.zip
 
-      - name: Set xvfb
+      - name: Set xvfb, install app, run app
         run: |
           export DISPLAY=':99.0'
           Xvfb :99 -screen 0 1440x1080x24 > /dev/null 2>&1 &
-
-      - name: Install app
-        run: |
           sudo ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
-
-      - name: Run app
-        run: |
           sudo /root/easyDiffraction/easyDiffraction/easyDiffraction test
 
 #      - name: Install app
