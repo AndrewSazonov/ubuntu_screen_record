@@ -35,15 +35,18 @@ jobs:
 #          ls -l /home/runner
 #          xvfb-run --server-args "-screen 0 1440x1080x24" /home/runner/easyDiffraction/easyDiffraction/easyDiffraction test
 
-      - name: Install app
+      - name: Set up Xvfb
         run: |
           Xvfb :0 -screen 0 1440x1080x24 -ac &
           export DISPLAY=:0
-          ls -l /home/runner
-          /home/runner/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script /home/runner/SilentInstall.js
-          ls -l /home/runner
-          /home/runner/easyDiffraction/easyDiffraction/easyDiffraction test
 
+      - name: Install app
+        run: |
+          /home/runner/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script /home/runner/SilentInstall.js
+
+      - name: Run app
+        run: |
+          /home/runner/easyDiffraction/easyDiffraction/easyDiffraction test
 
       - name: List dir content
         run: |
@@ -51,8 +54,3 @@ jobs:
           ls -l /home/runner
           ls -l /home/runner/easyDiffraction
           ls -l /home/runner/easyDiffraction/easyDiffraction
-
-
-      - name: List dir content
-        run: |
-          ls -l /home/runner
