@@ -18,6 +18,7 @@ jobs:
 
       - name: Download app and script
         run: |
+          cd ~
           curl -O -L https://github.com/AndrewSazonov/ubuntu_screen_record/releases/download/v0.1/SilentInstall.js
           curl -O -L https://github.com/AndrewSazonov/ubuntu_screen_record/releases/download/v0.1/easyDiffraction_Linux_x86-64_v0.0.5_ubuntu-18.04.zip
           unzip easyDiffraction_Linux_x86-64_v0.0.5_ubuntu-18.04.zip
