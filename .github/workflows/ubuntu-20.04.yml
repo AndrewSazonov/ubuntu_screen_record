@@ -13,10 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install GUI
-        run: | 
-          sudo apt-get install libxkbcommon-x11-0
-
       - name: Download app and script
         run: |
           cd ~
@@ -25,28 +21,17 @@ jobs:
           curl -O -L https://github.com/AndrewSazonov/ubuntu_screen_record/releases/download/v0.1/easyDiffraction_Linux_x86-64_v0.0.5_ubuntu-18.04.zip
           unzip easyDiffraction_Linux_x86-64_v0.0.5_ubuntu-18.04.zip
 
-#      - name: Install app
-#        run: |
-#          ls -l /home/runner
-#          xvfb-run --server-args "-screen 0 1440x1080x24" /home/runner/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script /home/runner/SilentInstall.js
-#          
-#      - name: Run app
-#        run: |
-#          ls -l /home/runner
-#          xvfb-run --server-args "-screen 0 1440x1080x24" /home/runner/easyDiffraction/easyDiffraction/easyDiffraction test
-
       - name: Set up Xvfb
         run: |
+          sudo apt-get install libxkbcommon-x11-0
           Xvfb :0 -screen 0 1440x1080x24 -ac &
           echo "DISPLAY=:0" >> $GITHUB_ENV
 
       - name: Install app
-        run: |
-          /home/runner/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script /home/runner/SilentInstall.js
+        run: /home/runner/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script /home/runner/SilentInstall.js
 
       - name: Run app
-        run: |
-          /home/runner/easyDiffraction/easyDiffraction/easyDiffraction test
+        run: /home/runner/easyDiffraction/easyDiffraction/easyDiffraction test
 
       - name: List dir content
         run: |
