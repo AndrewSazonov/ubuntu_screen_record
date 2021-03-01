@@ -11,8 +11,7 @@ jobs:
       
       - name: Install GUI
         run: | 
-          sudo apt-get install xorg
-          sudo apt-get install --no-install-recommends ubuntu-mate-core
+          sudo apt-get install ubuntu-desktop
           sudo apt-get install xcb
           sudo apt-get install libxcb-xinerama0
 
