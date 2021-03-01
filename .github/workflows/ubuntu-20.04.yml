@@ -59,23 +59,25 @@ jobs:
       - name: Set up Python dependences
         run: pip install ${{ env.GIT_INSTALL_URL }}
 
-      - name: Download app and script
-        run: |
-          ls -l
-          mkdir -p .ci/distribution
-          cd .ci/distribution
-          curl -O -L https://github.com/AndrewSazonov/ubuntu_screen_record/releases/download/v0.1/easyDiffraction_Linux_x86-64_v0.0.5_ubuntu-18.04.zip
-          unzip easyDiffraction_Linux_x86-64_v0.0.5_ubuntu-18.04.zip
-          cd ..
-          cd ..
-          ls -l
+#      - name: Download app and script
+#        run: |
+#          mkdir -p .ci/distribution
+#          curl -O -L https://github.com/AndrewSazonov/ubuntu_screen_record/releases/download/v0.1/easyDiffraction_Linux_x86-64_v0.0.5_ubuntu-18.04.zip
+#          unzip easyDiffraction_Linux_x86-64_v0.0.5_ubuntu-18.04.zip -d .ci/distribution
+
+      - name: Relink CrysFML from default Python dylib
+        run: python ${{ env.SCRIPTS_PATH }}/RelinkCrysfml.py
+
+      - name: Create freezed python app bundle
+        run: python ${{ env.SCRIPTS_PATH }}/FreezeApp.py
+
+      - name: Create app installer from freezed app bundle
+        run: python ${{ env.SCRIPTS_PATH }}/MakeInstaller.py
 
       - name: Set up screen recording dependencies (macOS)
         if: runner.os == 'macOS'
         run: |
-          system_profiler SPDisplaysDataType | grep Resolution
           "/Library/Application Support/VMware Tools/vmware-resolutionSet" 1440 1080
-          system_profiler SPDisplaysDataType | grep Resolution
           
       - name: Set up screen recording dependencies (Linux)
         if: runner.os == 'Linux'
@@ -86,24 +88,19 @@ jobs:
 
       - name: Install app
         run: python ${{ env.SCRIPTS_PATH }}/InstallApp.py
-#        run: /home/runner/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script /home/runner/SilentInstall.js
-#        run: /home/runner/work/easyDiffractionApp/easyDiffractionApp/.ci/distribution/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script /home/runner/work/easyDiffractionApp/easyDiffractionApp/tools/Scripts/SilentInstall.js
 
       - name: Run app
         run: python ${{ env.SCRIPTS_PATH }}/RunApp.py test
-#        run: /home/runner/easyDiffraction/easyDiffraction/easyDiffraction test
 
       - name: List dir content
         run: |
-          ls -l ~
-          ls -l /home/runner
-          ls -l /home/runner/easyDiffraction
-          ls -l /home/runner/easyDiffraction/easyDiffraction
+          ls -l
 
       - name: Rename test videos
         run: python ${{ env.SCRIPTS_PATH }}/CreateTestVideos.py ${{ env.BRANCH_NAME }}
         
       - name: Create zip archive of app installer
         run: python ${{ env.SCRIPTS_PATH }}/ZipArtifacts.py ${{ env.BRANCH_NAME }}
+        
 
 
