@@ -56,7 +56,9 @@ jobs:
           echo "PYTHON_PACKAGES_PATH=$(python utils.py --get ci.cache.python_packages_path)" >> $GITHUB_ENV
           echo "GIT_INSTALL_URL=git+$GITHUB_SERVER_URL/$GITHUB_REPOSITORY@${{ env.BRANCH_NAME }}" >> $GITHUB_ENV
 
-#      - name: Set up Python dependences
+      - name: Set up Python dependences
+        run: |
+          pip install requests
 #        run: pip install ${{ env.GIT_INSTALL_URL }}
 
       - name: Download app and script
