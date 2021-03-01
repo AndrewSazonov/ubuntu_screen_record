@@ -25,11 +25,11 @@ jobs:
 
       - name: Install app
         run: |
-          startx sudo ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
+          sudo startx ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
 
       - name: Run app
         run: |
-          startx sudo /root/easyDiffraction/easyDiffraction/easyDiffraction test
+          sudo startx /root/easyDiffraction/easyDiffraction/easyDiffraction test
 
 #      - name: Install app
 #        run: |
