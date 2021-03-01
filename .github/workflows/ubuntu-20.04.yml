@@ -85,7 +85,7 @@ jobs:
           echo "DISPLAY=:0" >> $GITHUB_ENV
 
       - name: Install app
-        run: python ${{ env.SCRIPTS_PATH }}/InstallApp.py test
+        run: python ${{ env.SCRIPTS_PATH }}/InstallApp.py
 #        run: /home/runner/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script /home/runner/SilentInstall.js
 #        run: /home/runner/work/easyDiffractionApp/easyDiffractionApp/.ci/distribution/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script /home/runner/work/easyDiffractionApp/easyDiffractionApp/tools/Scripts/SilentInstall.js
 
@@ -105,9 +105,5 @@ jobs:
         
       - name: Create zip archive of app installer
         run: python ${{ env.SCRIPTS_PATH }}/ZipArtifacts.py ${{ env.BRANCH_NAME }
-      
-      
-      
-      
 
 
