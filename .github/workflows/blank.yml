@@ -25,15 +25,23 @@ jobs:
 
       - name: Install app
         run: |
-          export DISPLAY=':99.0'
-          Xvfb :99 -screen 0 1440x1080x24 > /dev/null 2>&1 &
-          sudo ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
+          startx sudo ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
 
       - name: Run app
         run: |
-          export DISPLAY=':99.0'
-          Xvfb :99 -screen 0 1440x1080x24 > /dev/null 2>&1 &
-          sudo /root/easyDiffraction/easyDiffraction/easyDiffraction test
+          startx sudo /root/easyDiffraction/easyDiffraction/easyDiffraction test
+
+#      - name: Install app
+#        run: |
+#          export DISPLAY=':99.0'
+#          Xvfb :99 -screen 0 1440x1080x24 > /dev/null 2>&1 &
+#          sudo ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
+#
+#      - name: Run app
+#        run: |
+#          export DISPLAY=':99.0'
+#          Xvfb :99 -screen 0 1440x1080x24 > /dev/null 2>&1 &
+#          sudo /root/easyDiffraction/easyDiffraction/easyDiffraction test
 
 #      - name: Try xinit
 #        run: |
