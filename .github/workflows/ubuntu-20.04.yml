@@ -41,6 +41,24 @@ jobs:
         shell: bash
         run: echo "BRANCH_NAME=$GITHUB_HEAD_REF" >> $GITHUB_ENV
 
+      - name: Add extra info to pyproject.toml
+        run: python utils.py --update
+
+      # https://docs.github.com/en/actions/reference/environment-variables
+      - name: Declare env variables on push and pull_request
+        shell: bash
+        run: |
+          echo "APP_NAME=$(python utils.py --get tool.poetry.name)" >> $GITHUB_ENV
+          echo "SCRIPTS_PATH=$(python utils.py --get ci.project.subdirs.scripts)" >> $GITHUB_ENV
+          echo "DISTRIBUTION_PATH=$(python utils.py --get ci.project.subdirs.distribution)" >> $GITHUB_ENV
+          echo "DOWNLOAD_PATH=$(python utils.py --get ci.project.subdirs.download)" >> $GITHUB_ENV
+          echo "QTIFW_PATH=$(python utils.py --get ci.qtifw.setup.installation_path.${{ runner.os }})" >> $GITHUB_ENV
+          echo "PYTHON_PACKAGES_PATH=$(python utils.py --get ci.cache.python_packages_path)" >> $GITHUB_ENV
+          echo "GIT_INSTALL_URL=git+$GITHUB_SERVER_URL/$GITHUB_REPOSITORY@${{ env.BRANCH_NAME }}" >> $GITHUB_ENV
+
+      - name: Set up Python dependences
+        run: pip install ${{ env.GIT_INSTALL_URL }}
+
       - name: Download app and script
         run: |
           cd ~
@@ -69,3 +87,8 @@ jobs:
           ls -l /home/runner
           ls -l /home/runner/easyDiffraction
           ls -l /home/runner/easyDiffraction/easyDiffraction
+
+      - name: Rename test videos
+        run: python ${{ env.SCRIPTS_PATH }}/CreateTestVideos.py ${{ env.BRANCH_NAME }}
+
+
