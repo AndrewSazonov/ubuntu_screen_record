@@ -8,7 +8,7 @@ jobs:
     
     strategy:
       matrix:
-        os: [_ubuntu-20.04]
+        os: [ubuntu-20.04]
 
     steps:
       - uses: actions/checkout@v2
@@ -39,13 +39,16 @@ jobs:
 #        run: |
 #          Xvfb :99 &
 #          export DISPLAY=:99
-#          sudo ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
-#          sudo /root/easyDiffraction/easyDiffraction/easyDiffraction test
+#          ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
+#          /home/runner/easyDiffraction/easyDiffraction/easyDiffraction test
 
-      - name: Install and run app
+      - name: Install app
         run: |
-          sudo xvfb-run ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
-          sudo --no-sandbox xvfb-run /root/easyDiffraction/easyDiffraction/easyDiffraction test
+          xvfb-run -a ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
+
+      - name: Run app
+        run: |
+          xvfb-run -a /home/runner/easyDiffraction/easyDiffraction/easyDiffraction test
 
 #      - name: Install app
 #        run: |
