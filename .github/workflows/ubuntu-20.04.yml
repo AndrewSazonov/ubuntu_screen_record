@@ -22,8 +22,8 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get install libgfortran4
-          curl -O -L http://archive.ubuntu.com/ubuntu/pool/main/g/glibc/libc6_2.33-0ubuntu2_amd64.deb
-          sudo dpkg -i libc6_2.33-0ubuntu2_amd64.deb
+          curl -O -L http://archive.ubuntu.com/ubuntu/pool/main/g/glibc/libc6_2.33-0ubuntu2_i386.deb
+          sudo dpkg -i libc6_2.33-0ubuntu2_i386.deb
 
       - name: Set up Python environment
         uses: actions/setup-python@v2
