@@ -61,11 +61,14 @@ jobs:
 
       - name: Download app and script
         run: |
-          cd ~
           ls -l
-          curl -O -L https://github.com/AndrewSazonov/ubuntu_screen_record/releases/download/v0.1/SilentInstall.js
+          mkdir -p .ci/distribution
+          cd .ci/distribution
           curl -O -L https://github.com/AndrewSazonov/ubuntu_screen_record/releases/download/v0.1/easyDiffraction_Linux_x86-64_v0.0.5_ubuntu-18.04.zip
           unzip easyDiffraction_Linux_x86-64_v0.0.5_ubuntu-18.04.zip
+          cd ..
+          cd ..
+          ls -l
 
       - name: Set up screen recording dependencies (macOS)
         if: runner.os == 'macOS'
@@ -82,11 +85,13 @@ jobs:
           echo "DISPLAY=:0" >> $GITHUB_ENV
 
       - name: Install app
-        run: /home/runner/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script /home/runner/SilentInstall.js
+        run: python ${{ env.SCRIPTS_PATH }}/InstallApp.py test
+#        run: /home/runner/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script /home/runner/SilentInstall.js
 #        run: /home/runner/work/easyDiffractionApp/easyDiffractionApp/.ci/distribution/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script /home/runner/work/easyDiffractionApp/easyDiffractionApp/tools/Scripts/SilentInstall.js
 
       - name: Run app
-        run: /home/runner/easyDiffraction/easyDiffraction/easyDiffraction test
+        run: python ${{ env.SCRIPTS_PATH }}/RunApp.py test
+#        run: /home/runner/easyDiffraction/easyDiffraction/easyDiffraction test
 
       - name: List dir content
         run: |
@@ -97,5 +102,12 @@ jobs:
 
       - name: Rename test videos
         run: python ${{ env.SCRIPTS_PATH }}/CreateTestVideos.py ${{ env.BRANCH_NAME }}
+        
+      - name: Create zip archive of app installer
+        run: python ${{ env.SCRIPTS_PATH }}/ZipArtifacts.py ${{ env.BRANCH_NAME }
+      
+      
+      
+      
 
 
