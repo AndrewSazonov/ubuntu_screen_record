@@ -1,0 +1,47 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Install GUI
+        run: | 
+          sudo apt-get install xorg
+          sudo apt-get install ubuntu-desktop
+          sudo apt-get install xcb
+          sudo apt-get install libxcb-xinerama0
+
+      - name: Download app and script
+        run: |
+          pwd
+          cd ~
+          curl -O -L https://github.com/easyScience/easyDiffractionApp/releases/download/ubuntu-18.04/SilentInstall.js
+          curl -O -L https://github.com/easyScience/easyDiffractionApp/releases/download/ubuntu-18.04/easyDiffraction_Linux_x86-64_v0.0.5_ubuntu-18.04.zip
+          unzip easyDiffraction_Linux_x86-64_v0.0.5_ubuntu-18.04.zip
+          ls -l
+
+      - name: Install app
+        run: |
+          sudo startx ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
+
+      - name: Run app
+        run: |
+          ls -l
+          ls -l ~/easyDiffraction
+          ls -l ~/easyDiffraction/easyDiffraction
+          sudo startx ~/easyDiffraction/easyDiffraction/easyDiffraction test
+
+#      - name: Try xinit
+#        run: |
+#          sudo startx gnome-calculator
+#          echo "/usr/bin/openbox-session" >> ~/.xsession
+#          sudo startx gnome-calculator
+#          exec openbox-session
+#          su -c 'startx gnome-calculator -- :1' runner
+#          sudo startx gnome-calculator -- :1
+#          sudo xinit /usr/ucb/rsh fasthost cpupig -display ws:1 --  :1 -a 2 -t 5
