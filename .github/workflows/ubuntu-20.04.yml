@@ -42,7 +42,17 @@ jobs:
 #          export DISPLAY=:99
 #          ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
 #          /home/runner/easyDiffraction/easyDiffraction/easyDiffraction test
-
+      - name: Install app
+        run: |
+          Xvfb :99 &
+          export DISPLAY=:99
+          /home/runner/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
+      - name: Run app
+        run: |
+          Xvfb :99 &
+          export DISPLAY=:99
+          /home/runner/easyDiffraction/easyDiffraction/easyDiffraction test
+          
 
 #      - name: Install app
 #        run: |
@@ -54,16 +64,16 @@ jobs:
 #          xvfb-run -a /home/runner/easyDiffraction/easyDiffraction/easyDiffraction test
 
 
-      - name: Install app
-        run: |
-          export DISPLAY=':99.0'
-          Xvfb :99 -screen 0 1440x1080x24 > /dev/null 2>&1 &
-          ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
-      - name: Run app
-        run: |
-          export DISPLAY=':99.0'
-          Xvfb :99 -screen 0 1440x1080x24 > /dev/null 2>&1 &
-          sudo /root/easyDiffraction/easyDiffraction/easyDiffraction test
+#      - name: Install app
+#        run: |
+#          export DISPLAY=':99.0'
+#          Xvfb :99 -screen 0 1440x1080x24 > /dev/null 2>&1 &
+#          ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
+#      - name: Run app
+#        run: |
+#          export DISPLAY=':99.0'
+#          Xvfb :99 -screen 0 1440x1080x24 > /dev/null 2>&1 &
+#          sudo /root/easyDiffraction/easyDiffraction/easyDiffraction test
 
 
       - name: List dir content
