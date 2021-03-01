@@ -15,6 +15,7 @@ jobs:
 
       - name: Install GUI
         run: | 
+          sudo apt-get install xcb
           sudo apt-get install libxcb-xinerama0
 
 #      - name: Install GUI
