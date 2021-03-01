@@ -12,20 +12,11 @@ jobs:
     
     strategy:
       matrix:
-        os: [ubuntu-18.04]  #[macos-10.15, ubuntu-20.04, windows-2019]
+        os: [ubuntu-20.04]  #[macos-10.15, ubuntu-20.04, windows-2019]
 
     steps:
       - name: Check-out repository
         uses: actions/checkout@v2
-
-      - name: Set up non-Python dependences
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get install libgfortran4
-          sudo apt-get install libcrypt1
-          curl -O -L http://archive.ubuntu.com/ubuntu/pool/main/g/glibc/libc6_2.31-0ubuntu9.2_amd64.deb
-          sudo dpkg --install --auto-deconfigure libc6_2.31-0ubuntu9.2_amd64.deb
-#          sudo dpkg -i libc6_2.27-3ubuntu1_amd64.deb
 
       - name: Set up Python environment
         uses: actions/setup-python@v2
@@ -63,12 +54,12 @@ jobs:
       - name: Set up Python dependences
         run: |
           pip install requests
-#        run: pip install ${{ env.GIT_INSTALL_URL }}
+#         run: pip install ${{ env.GIT_INSTALL_URL }}
 
       - name: Download app and script
         run: |
           mkdir -p .ci/distribution
-          curl -O -L https://github.com/AndrewSazonov/ubuntu_screen_record/releases/download/v0.1/easyDiffraction_Linux_x86-64_v0.0.5_ubuntu-18.04.zip
+          curl -O -L https://github.com/easyScience/easyDiffractionApp/releases/download/ubuntu-18.04/easyDiffraction_Linux_x86-64_v0.0.5_ubuntu-18.04.zip
           unzip easyDiffraction_Linux_x86-64_v0.0.5_ubuntu-18.04.zip -d .ci/distribution
 
 #      - name: Relink CrysFML from default Python dylib
