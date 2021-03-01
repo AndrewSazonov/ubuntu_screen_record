@@ -23,6 +23,7 @@ jobs:
       - name: Download app and script
         run: |
           cd ~
+          ls -l
           curl -O -L https://github.com/AndrewSazonov/ubuntu_screen_record/releases/download/v0.1/SilentInstall.js
           curl -O -L https://github.com/AndrewSazonov/ubuntu_screen_record/releases/download/v0.1/easyDiffraction_Linux_x86-64_v0.0.5_ubuntu-18.04.zip
           unzip easyDiffraction_Linux_x86-64_v0.0.5_ubuntu-18.04.zip
@@ -42,34 +43,29 @@ jobs:
 #          ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
 #          /home/runner/easyDiffraction/easyDiffraction/easyDiffraction test
 
-      - name: Install app
-        run: |
-          ls -l /home/runner
-          xvfb-run -a ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
-
-      - name: Run app
-        run: |
-          ls -l /home/runner
-          xvfb-run -a /home/runner/easyDiffraction/easyDiffraction/easyDiffraction test
 
 #      - name: Install app
 #        run: |
-#          export DISPLAY=':99.0'
-#          Xvfb :99 -screen 0 1440x1080x24 > /dev/null 2>&1 &
-#          sudo ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
-#
+#          ls -l /home/runner
+#          xvfb-run -a ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
 #      - name: Run app
 #        run: |
-#          export DISPLAY=':99.0'
-#          Xvfb :99 -screen 0 1440x1080x24 > /dev/null 2>&1 &
-#          sudo /root/easyDiffraction/easyDiffraction/easyDiffraction test
+#          ls -l /home/runner
+#          xvfb-run -a /home/runner/easyDiffraction/easyDiffraction/easyDiffraction test
 
-#      - name: Try xinit
-#        run: |
-#          sudo startx gnome-calculator
-#          echo "/usr/bin/openbox-session" >> ~/.xsession
-#          sudo startx gnome-calculator
-#          exec openbox-session
-#          su -c 'startx gnome-calculator -- :1' runner
-#          sudo startx gnome-calculator -- :1
-#          sudo xinit /usr/ucb/rsh fasthost cpupig -display ws:1 --  :1 -a 2 -t 5
+
+      - name: Install app
+        run: |
+          export DISPLAY=':99.0'
+          Xvfb :99 -screen 0 1440x1080x24 > /dev/null 2>&1 &
+          ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
+      - name: Run app
+        run: |
+          export DISPLAY=':99.0'
+          Xvfb :99 -screen 0 1440x1080x24 > /dev/null 2>&1 &
+          sudo /root/easyDiffraction/easyDiffraction/easyDiffraction test
+
+
+      - name: List dir content
+        run: |
+          ls -l /home/runner
