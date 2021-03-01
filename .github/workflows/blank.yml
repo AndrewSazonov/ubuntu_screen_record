@@ -35,12 +35,17 @@ jobs:
 #        run: |
 #          sudo startx /root/easyDiffraction/easyDiffraction/easyDiffraction test
 
+#      - name: Install and run app
+#        run: |
+#          Xvfb :99 &
+#          export DISPLAY=:99
+#          sudo ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
+#          sudo /root/easyDiffraction/easyDiffraction/easyDiffraction test
+
       - name: Install and run app
         run: |
-          Xvfb :99 &
-          export DISPLAY=:99
-          sudo ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
-          sudo /root/easyDiffraction/easyDiffraction/easyDiffraction test
+          sudo xvfb-run ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
+          sudo xvfb-run /root/easyDiffraction/easyDiffraction/easyDiffraction test
 
 #      - name: Install app
 #        run: |
