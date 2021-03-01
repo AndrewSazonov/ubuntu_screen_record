@@ -22,7 +22,8 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get install libgfortran4
-          sudo apt-get install build-essential -y  # fix glibc_2.29 not found on ubuntu 18.04
+          curl -O -L http://archive.ubuntu.com/ubuntu/pool/main/g/glibc/libc6_2.33-0ubuntu2_amd64.deb
+          sudo dpkg -i libc6_2.33-0ubuntu2_amd64.deb
 
       - name: Set up Python environment
         uses: actions/setup-python@v2
