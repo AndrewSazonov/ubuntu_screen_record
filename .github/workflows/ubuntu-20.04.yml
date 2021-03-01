@@ -48,7 +48,7 @@ jobs:
 
       - name: Set up Python dependences
         run: |
-          pip install requests
+          pip install requests ffmpeg
 #         run: pip install ${{ env.GIT_INSTALL_URL }}
 
       - name: Download app and script
