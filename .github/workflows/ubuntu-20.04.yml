@@ -28,7 +28,7 @@ jobs:
       - name: Install app
         run: |
           ls -l /home/runner
-          ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
+          xvfb-run --server-args "-screen 0 1440x1080x24" /home/runner/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script /home/runner/SilentInstall.js
           
       - name: Run app
         run: |
