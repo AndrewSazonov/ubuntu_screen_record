@@ -27,7 +27,6 @@ jobs:
 
       - name: Run app
         run: |
-          ls -l /root
           sudo startx /root/easyDiffraction/easyDiffraction/easyDiffraction test
 
 #      - name: Try xinit
