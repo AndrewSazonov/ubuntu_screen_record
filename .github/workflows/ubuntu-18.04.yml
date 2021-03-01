@@ -1,0 +1,70 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [ubuntu-18.04]
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Install GUI
+        run: | 
+          sudo apt-get install xorg
+          sudo apt-get install --no-install-recommends ubuntu-desktop
+          sudo apt-get install xcb
+          sudo apt-get install libxcb-xinerama0
+
+      - name: Download app and script
+        run: |
+          cd ~
+          curl -O -L https://github.com/AndrewSazonov/ubuntu_screen_record/releases/download/v0.1/SilentInstall.js
+          curl -O -L https://github.com/AndrewSazonov/ubuntu_screen_record/releases/download/v0.1/easyDiffraction_Linux_x86-64_v0.0.5_ubuntu-18.04.zip
+          unzip easyDiffraction_Linux_x86-64_v0.0.5_ubuntu-18.04.zip
+
+#      - name: Install app
+#        run: |
+#          sudo startx ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
+#
+#      - name: Run app
+#        run: |
+#          sudo startx /root/easyDiffraction/easyDiffraction/easyDiffraction test
+
+#      - name: Install and run app
+#        run: |
+#          Xvfb :99 &
+#          export DISPLAY=:99
+#          sudo ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
+#          sudo /root/easyDiffraction/easyDiffraction/easyDiffraction test
+
+      - name: Install and run app
+        run: |
+          xvfb-run ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
+          xvfb-run /home/runner/easyDiffraction/easyDiffraction/easyDiffraction test
+
+#      - name: Install app
+#        run: |
+#          export DISPLAY=':99.0'
+#          Xvfb :99 -screen 0 1440x1080x24 > /dev/null 2>&1 &
+#          sudo ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
+#
+#      - name: Run app
+#        run: |
+#          export DISPLAY=':99.0'
+#          Xvfb :99 -screen 0 1440x1080x24 > /dev/null 2>&1 &
+#          sudo /root/easyDiffraction/easyDiffraction/easyDiffraction test
+
+#      - name: Try xinit
+#        run: |
+#          sudo startx gnome-calculator
+#          echo "/usr/bin/openbox-session" >> ~/.xsession
+#          sudo startx gnome-calculator
+#          exec openbox-session
+#          su -c 'startx gnome-calculator -- :1' runner
+#          sudo startx gnome-calculator -- :1
+#          sudo xinit /usr/ucb/rsh fasthost cpupig -display ws:1 --  :1 -a 2 -t 5
