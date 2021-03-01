@@ -75,6 +75,7 @@ jobs:
           sudo apt-get install libxkbcommon-x11-0
           Xvfb :0 -screen 0 1440x1080x24 -ac &
           echo "DISPLAY=:0" >> $GITHUB_ENV
+          echo "QT_DEBUG_PLUGINS=1" >> $GITHUB_ENV
 
       - name: Install app
         if: runner.os != 'Windows'
