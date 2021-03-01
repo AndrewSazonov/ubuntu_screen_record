@@ -44,10 +44,12 @@ jobs:
 
       - name: Install app
         run: |
+          ls -l /home/runner
           xvfb-run -a ~/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script ~/SilentInstall.js
 
       - name: Run app
         run: |
+          ls -l /home/runner
           xvfb-run -a /home/runner/easyDiffraction/easyDiffraction/easyDiffraction test
 
 #      - name: Install app
