@@ -83,7 +83,7 @@ jobs:
       - name: Run app
         if: runner.os != 'Windows'
         run: |
-          sudo apt-get install libxcb-icccm4 libxcb-xinerama0 libxcb-image0
+          sudo apt-get install libxcb-xinerama0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1
           echo "QT_DEBUG_PLUGINS=1" >> $GITHUB_ENV
           echo "---cv2---"
           ls -l /home/runner/easyDiffraction/easyDiffraction/cv2
