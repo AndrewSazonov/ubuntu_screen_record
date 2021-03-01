@@ -44,14 +44,12 @@ jobs:
       - name: Install app
         shell: bash
         run: |
-          Xvfb :0 -screen 0 1440x1080x24 -ac &
           export DISPLAY=:0
           /home/runner/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script /home/runner/SilentInstall.js
 
       - name: Run app
         shell: bash
         run: |
-          Xvfb :0 -screen 0 1440x1080x24 -ac &
           export DISPLAY=:0
           /home/runner/easyDiffraction/easyDiffraction/easyDiffraction test
 
