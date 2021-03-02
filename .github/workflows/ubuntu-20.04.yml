@@ -1,13 +1,9 @@
-name: build macOS, Linux, Windows
+name: build Linux
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   build:
-    if: "!contains(github.event.head_commit.message, '[ci skip]')"
-    
-    timeout-minutes: 25
-    
     runs-on: ${{ matrix.os }}
     
     strategy:
@@ -18,117 +14,20 @@ jobs:
       - name: Check-out repository
         uses: actions/checkout@v2
 
-      #- name: Set up non-Python dependences
-        #if: runner.os == 'Linux'
-        #run: |
-        #  sudo apt-get install libgfortran4
-        #  sudo apt-get install libxcb-xinerama0 
-        #  sudo apt-get install libpulse-mainloop-glib0
-        # sudo apt-get install libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xfixes0
-        # echo "QT_DEBUG_PLUGINS=1" >> $GITHUB_ENV
-
-      - name: Set up Python environment
-        uses: actions/setup-python@v2
-        with:
-            python-version: 3.7
-
-      - name: Upgrade pip
-        run: python -m pip install --upgrade pip
-      
-      - name: Declare env variables on push only
-        if: github.event_name == 'push'
-        shell: bash
-        run: echo "BRANCH_NAME=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-
-      - name: Declare env variables on pull_request only
-        if: github.event_name == 'pull_request'
-        shell: bash
-        run: echo "BRANCH_NAME=$GITHUB_HEAD_REF" >> $GITHUB_ENV
-
-      - name: Add extra info to pyproject.toml
-        run: python utils.py --update
-
-      # https://docs.github.com/en/actions/reference/environment-variables
-      - name: Declare env variables on push and pull_request
-        shell: bash
-        run: |
-          echo "APP_NAME=$(python utils.py --get tool.poetry.name)" >> $GITHUB_ENV
-          echo "SCRIPTS_PATH=$(python utils.py --get ci.project.subdirs.scripts)" >> $GITHUB_ENV
-          echo "DISTRIBUTION_PATH=$(python utils.py --get ci.project.subdirs.distribution)" >> $GITHUB_ENV
-          echo "DOWNLOAD_PATH=$(python utils.py --get ci.project.subdirs.download)" >> $GITHUB_ENV
-          echo "QTIFW_PATH=$(python utils.py --get ci.qtifw.setup.installation_path.${{ runner.os }})" >> $GITHUB_ENV
-          echo "PYTHON_PACKAGES_PATH=$(python utils.py --get ci.cache.python_packages_path)" >> $GITHUB_ENV
-          echo "GIT_INSTALL_URL=git+$GITHUB_SERVER_URL/$GITHUB_REPOSITORY@${{ env.BRANCH_NAME }}" >> $GITHUB_ENV
-
-      #- name: Cache dependencies
-      #  uses: actions/cache@v2
-      #  with:
-      #    path: |
-      #      ${{ env.DOWNLOAD_PATH }}
-      #      ${{ env.QTIFW_PATH }}
-      #      ${{ env.PYTHON_PACKAGES_PATH }}
-      #    key: ${{ matrix.os }}-${{ hashFiles('pyproject.toml') }}
-
-      - name: Set up Python dependences
-        run: pip install requests
-      #  run: pip install ${{ env.GIT_INSTALL_URL }}
-
       - name: Download app and script
         run: |
-          mkdir -p .ci/distribution
           curl -O -L https://github.com/AndrewSazonov/ubuntu_screen_record/releases/download/v0.1/easyDiffraction_Linux_x86-64_v0.0.5_develop.zip
-          unzip easyDiffraction_Linux_x86-64_v0.0.5_develop.zip -d .ci/distribution
-
-      #- name: Relink CrysFML from default Python dylib
-      #  run: python ${{ env.SCRIPTS_PATH }}/RelinkCrysfml.py
-
-      #- name: Create freezed python app bundle
-      #  run: python ${{ env.SCRIPTS_PATH }}/FreezeApp.py
-
-      #- name: Create app installer from freezed app bundle
-      #  run: python ${{ env.SCRIPTS_PATH }}/MakeInstaller.py
-
-      - name: Set up screen recording dependencies (macOS)
-        if: runner.os == 'macOS'
-        run: |
-          "/Library/Application Support/VMware Tools/vmware-resolutionSet" 1440 1080
+          unzip easyDiffraction_Linux_x86-64_v0.0.5_develop.zip
       
-      - name: Set up screen recording dependencies (Linux)
-        if: runner.os == 'Linux'
+      - name: Set up screen recording dependencies
         run: |
           sudo apt-get install libxkbcommon-x11-0
           Xvfb :0 -screen 0 1440x1080x24 -ac &
           echo "DISPLAY=:0" >> $GITHUB_ENV
 
       - name: Install app
-        if: runner.os != 'Windows'
-        run: .ci/distribution/easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script tools/Scripts/SilentInstall.js
-      #  run: python ${{ env.SCRIPTS_PATH }}/InstallApp.py
+        run: easyDiffraction_Linux_x86-64_v0.0.5 --verbose --script SilentInstall.js
 
       - name: Run app
-        if: runner.os != 'Windows'
-        run: python ${{ env.SCRIPTS_PATH }}/RunApp.py test
+        run: /home/runner/easyDiffraction/easyDiffraction/easyDiffraction test
 
-      - name: Rename test videos
-        if: runner.os != 'Windows'
-        run: python ${{ env.SCRIPTS_PATH }}/CreateTestVideos.py ${{ env.BRANCH_NAME }}
-        
-      - name: Create zip archive of app installer
-        run: python ${{ env.SCRIPTS_PATH }}/ZipArtifacts.py ${{ env.BRANCH_NAME }}
-        
-      #- name: Upload zipped app installer to GitHub releases
-      #  if: github.event_name == 'push'
-      #  uses: ncipollo/release-action@v1
-      #  with:
-      #    draft: true
-      #    prerelease: true
-      #    allowUpdates: true
-      #    replacesArtifacts: true
-      #    token: ${{ secrets.GITHUB_TOKEN }}
-      #    artifacts: "${{ env.DISTRIBUTION_PATH }}/${{ env.APP_NAME }}_*.zip,${{ env.DISTRIBUTION_PATH }}/tutorial_*.mp4"
-      #    tag: ${{ env.BRANCH_NAME }}
-      #    commit: ${{ env.BRANCH_NAME }}
-
-      #- name: Upload app installer repository to FTP
-      #  if: github.event_name == 'push'
-      #  run: python ${{ env.SCRIPTS_PATH }}/DeployFtp.py ${{ env.BRANCH_NAME }} ${{ secrets.FTP_PASSWORD }}
