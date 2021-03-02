@@ -70,7 +70,8 @@ jobs:
       #    key: ${{ matrix.os }}-${{ hashFiles('pyproject.toml') }}
 
       - name: Set up Python dependences
-        run: pip install ${{ env.GIT_INSTALL_URL }}
+        run: pip install requests
+      #  run: pip install ${{ env.GIT_INSTALL_URL }}
 
       - name: Download app and script
         run: |
