@@ -12,7 +12,7 @@ jobs:
     
     strategy:
       matrix:
-        os: [macos-10.15, windows-2019]
+        os: [ubuntu-20.04]
 
     steps:
       - name: Check-out repository
@@ -72,20 +72,20 @@ jobs:
       - name: Set up Python dependences
         run: pip install ${{ env.GIT_INSTALL_URL }}
 
-      #- name: Download app and script
-      #  run: |
-      #    mkdir -p .ci/distribution
-      #    curl -O -L https://github.com/easyScience/easyDiffractionApp/releases/download/ubuntu-18.04/easyDiffraction_Linux_x86-64_v0.0.5_ubuntu-18.04.zip
-      #    unzip easyDiffraction_Linux_x86-64_v0.0.5_ubuntu-18.04.zip -d .ci/distribution
+      - name: Download app and script
+        run: |
+          mkdir -p .ci/distribution
+          curl -O -L https://github.com/AndrewSazonov/ubuntu_screen_record/releases/download/v0.1/easyDiffraction_Linux_x86-64_v0.0.5_develop.zip
+          unzip easyDiffraction_Linux_x86-64_v0.0.5_develop.zip -d .ci/distribution
 
-      - name: Relink CrysFML from default Python dylib
-        run: python ${{ env.SCRIPTS_PATH }}/RelinkCrysfml.py
+      #- name: Relink CrysFML from default Python dylib
+      #  run: python ${{ env.SCRIPTS_PATH }}/RelinkCrysfml.py
 
-      - name: Create freezed python app bundle
-        run: python ${{ env.SCRIPTS_PATH }}/FreezeApp.py
+      #- name: Create freezed python app bundle
+      #  run: python ${{ env.SCRIPTS_PATH }}/FreezeApp.py
 
-      - name: Create app installer from freezed app bundle
-        run: python ${{ env.SCRIPTS_PATH }}/MakeInstaller.py
+      #- name: Create app installer from freezed app bundle
+      #  run: python ${{ env.SCRIPTS_PATH }}/MakeInstaller.py
 
       - name: Set up screen recording dependencies (macOS)
         if: runner.os == 'macOS'
@@ -114,19 +114,19 @@ jobs:
       - name: Create zip archive of app installer
         run: python ${{ env.SCRIPTS_PATH }}/ZipArtifacts.py ${{ env.BRANCH_NAME }}
         
-      - name: Upload zipped app installer to GitHub releases
-        if: github.event_name == 'push'
-        uses: ncipollo/release-action@v1
-        with:
-          draft: true
-          prerelease: true
-          allowUpdates: true
-          replacesArtifacts: true
-          token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: "${{ env.DISTRIBUTION_PATH }}/${{ env.APP_NAME }}_*.zip,${{ env.DISTRIBUTION_PATH }}/tutorial_*.mp4"
-          tag: ${{ env.BRANCH_NAME }}
-          commit: ${{ env.BRANCH_NAME }}
+      #- name: Upload zipped app installer to GitHub releases
+      #  if: github.event_name == 'push'
+      #  uses: ncipollo/release-action@v1
+      #  with:
+      #    draft: true
+      #    prerelease: true
+      #    allowUpdates: true
+      #    replacesArtifacts: true
+      #    token: ${{ secrets.GITHUB_TOKEN }}
+      #    artifacts: "${{ env.DISTRIBUTION_PATH }}/${{ env.APP_NAME }}_*.zip,${{ env.DISTRIBUTION_PATH }}/tutorial_*.mp4"
+      #    tag: ${{ env.BRANCH_NAME }}
+      #    commit: ${{ env.BRANCH_NAME }}
 
-      - name: Upload app installer repository to FTP
-        if: github.event_name == 'push'
-        run: python ${{ env.SCRIPTS_PATH }}/DeployFtp.py ${{ env.BRANCH_NAME }} ${{ secrets.FTP_PASSWORD }}
+      #- name: Upload app installer repository to FTP
+      #  if: github.event_name == 'push'
+      #  run: python ${{ env.SCRIPTS_PATH }}/DeployFtp.py ${{ env.BRANCH_NAME }} ${{ secrets.FTP_PASSWORD }}
