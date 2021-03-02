@@ -11,8 +11,8 @@ Controller.prototype.IntroductionPageCallback = function()
 
 Controller.prototype.TargetDirectoryPageCallback = function()
 {
-  //var page = gui.pageWidgetByObjectName("TargetDirectoryPage")
-  //page.TargetDirectoryLineEdit.setText('/home/runner/easyDiffraction')
+  var page = gui.pageWidgetByObjectName("TargetDirectoryPage")
+  page.TargetDirectoryLineEdit.setText('/home/runner/easyDiffraction')
   gui.clickButton(buttons.NextButton);
 }
 
