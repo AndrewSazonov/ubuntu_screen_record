@@ -14,7 +14,18 @@ jobs:
       - name: Check-out repository
         uses: actions/checkout@v2
         
+        
+      - name: Vmware 1
+        run: |
+          "C:\Program Files\VMware\VMware Tools\VMwareResolutionSet.exe" 0 1 , 0 0 1440 900
+
+      - name: Vmware 2
+        run: |
+          "C:\Program Files (x86)\VMware\VMware Tools\VMwareResolutionSet.exe" 0 1 , 0 0 1440 900
+        
+
       - name: AAA
+        if: runner.os == '.Windows'
         run: |
           Get-ChildItem -Path C:\ -Include *vmware* -Recurse -ErrorAction SilentlyContinue
         #  ls C:\
@@ -22,7 +33,7 @@ jobs:
         #  ls 'C:\Program Files'
         #  ls 'C:\Program Files (x86)'
           
-          
+              
 
         
       - name: Set up screen recording dependencies (Windows)
