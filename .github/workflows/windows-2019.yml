@@ -17,7 +17,8 @@ jobs:
         
       - name: Vmware 1
         run: |
-          "C:\Program Files\VMware\VMware Tools\VMwareResolutionSet.exe"
+          "C:\Program Files\VMware\VMware Tools\VMwareResolutionSet.exe" 1440 900
+          Get-DisplayResolution
 
       - name: Vmware 2
         run: |
