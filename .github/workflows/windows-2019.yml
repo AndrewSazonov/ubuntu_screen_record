@@ -28,6 +28,7 @@ jobs:
         
 
       - name: AAA
+        if: runner.os == '.Windows'
         run: |
           Get-ChildItem -Path C:\ -Filter VWwareResolutionSet.exe -File -Recurse -ErrorAction SilentlyContinue -Force
         #  ls C:\
@@ -35,7 +36,12 @@ jobs:
         #  ls 'C:\Program Files'
         #  ls 'C:\Program Files (x86)'
           
-              
+      - name: Set up screen recording dependencies (Windows)
+        if: runner.os == '.Windows'
+        run: |
+          Get-DisplayResolution
+          Set-DisplayResolution -Width 1920 -Height 1080 -Force
+          Get-DisplayResolution              
 
         
       - name: Set up screen recording dependencies (Windows)
