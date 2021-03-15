@@ -14,8 +14,18 @@ jobs:
       - name: Check-out repository
         uses: actions/checkout@v2
         
+      - name: AAA
+        run: |
+          ls C:\
+          ls C:\Users
+          ls C:\Program Files
+          ls C:\Program Files (x86)
+          
+          
+
+        
       - name: Set up screen recording dependencies (Windows)
-        if: runner.os == 'Windows'
+        if: runner.os == '.Windows'
         run: |
           Get-DisplayResolution
           Set-DisplayResolution -Width 1440 -Height 1080 -Force
@@ -25,14 +35,17 @@ jobs:
           .\QRes.exe /x:1440 /y:1080
 
       - name: Download app and script
+        if: runner.os == '.Windows'
         run: |
           curl -O -L https://github.com/AndrewSazonov/ubuntu_screen_record/releases/download/v0.2/SilentInstall.js
           curl -O -L https://github.com/AndrewSazonov/ubuntu_screen_record/releases/download/v0.2/easyDiffraction_Windows_x86-32_v0.0.5_DAS-282.zip
           unzip easyDiffraction_Windows_x86-32_v0.0.5_DAS-282.zip
       
       - name: Install app
+        if: runner.os == '.Windows'
         run: .\easyDiffraction_Windows_x86-32_v0.0.5.exe --verbose --script SilentInstall.js
 
       - name: Run app
+        if: runner.os == '.Windows'
         run: C:\easyDiffraction\easyDiffraction\easyDiffraction.exe --testmode
 
