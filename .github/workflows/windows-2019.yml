@@ -18,8 +18,8 @@ jobs:
         run: |
           ls C:\
           ls C:\Users
-          ls C:\Program Files
-          ls C:\Program Files (x86)
+          ls 'C:\Program Files'
+          ls 'C:\Program Files (x86)'
           
           
 
