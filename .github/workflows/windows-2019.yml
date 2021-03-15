@@ -16,19 +16,20 @@ jobs:
         
         
       - name: Vmware 1
+        if: runner.os == '.Windows'
         run: |
           & "C:\Program Files\VMware\VMware Tools\VMwareResolutionSet.exe" 0 1 , 0 0 1440 900
           Get-DisplayResolution
 
       - name: Vmware 2
+        if: runner.os == '.Windows'
         run: |
           "C:\Program Files (x86)\VMware\VMware Tools\VMwareResolutionSet.exe" 0 1 , 0 0 1440 900
         
 
       - name: AAA
-        if: runner.os == '.Windows'
         run: |
-          Get-ChildItem -Path C:\ -Include *vmware* -Recurse -ErrorAction SilentlyContinue
+          Get-ChildItem -Path C:\ -Filter VWwareResolutionSet.exe -File -Recurse -ErrorAction SilentlyContinue -Force
         #  ls C:\
         #  ls C:\Users
         #  ls 'C:\Program Files'
