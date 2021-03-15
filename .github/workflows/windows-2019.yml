@@ -13,6 +13,10 @@ jobs:
     steps:
       - name: Check-out repository
         uses: actions/checkout@v2
+        
+      - name: Set up screen recording dependencies (Windows)
+        if: runner.os == 'Windows'
+        run: QRes.exe /x:1440 /y:1080
 
       - name: Download app and script
         run: |
@@ -22,8 +26,8 @@ jobs:
           ls
       
       - name: Install app
-        run: easyDiffraction_Windows_x86-32_v0.0.5.exe --verbose --script SilentInstall.js
+        run: .\easyDiffraction_Windows_x86-32_v0.0.5.exe --verbose --script SilentInstall.js
 
       - name: Run app
-        run: C:\easyDiffraction --testmode
+        run: C:\easyDiffraction\easyDiffraction\easyDiffraction.exe --testmode
 
