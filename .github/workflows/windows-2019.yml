@@ -16,10 +16,11 @@ jobs:
         
       - name: AAA
         run: |
-          ls C:\
-          ls C:\Users
-          ls 'C:\Program Files'
-          ls 'C:\Program Files (x86)'
+          Get-ChildItem -Path C:\ -Include *vmware* -Recurse -ErrorAction SilentlyContinue
+        #  ls C:\
+        #  ls C:\Users
+        #  ls 'C:\Program Files'
+        #  ls 'C:\Program Files (x86)'
           
           
 
