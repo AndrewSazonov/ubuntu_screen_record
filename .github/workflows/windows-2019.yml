@@ -37,7 +37,6 @@ jobs:
         #  ls 'C:\Program Files (x86)'
           
       - name: Set up screen recording dependencies (Windows)
-        if: runner.os == '.Windows'
         run: |
           Get-DisplayResolution
           Set-DisplayResolution -Width 1920 -Height 1080 -Force
