@@ -17,7 +17,7 @@ jobs:
         
       - name: Vmware 1
         run: |
-          "C:\Program Files\VMware\VMware Tools\VMwareResolutionSet.exe" 0 1 , 0 0 1440 900
+          "C:\Program Files\VMware\VMware Tools\VMwareResolutionSet.exe"
 
       - name: Vmware 2
         run: |
