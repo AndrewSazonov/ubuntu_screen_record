@@ -16,7 +16,13 @@ jobs:
         
       - name: Set up screen recording dependencies (Windows)
         if: runner.os == 'Windows'
-        run: Set-DisplayResolution -Width 1440 -Height 1080 -Force
+        run: |
+          Get-DisplayResolution
+          Set-DisplayResolution -Width 1440 -Height 1080 -Force
+          Get-DisplayResolution
+          curl -O -L https://github.com/AndrewSazonov/ubuntu_screen_record/releases/download/v0.2/QRes.zip
+          unzip QRes.zip
+          .\QRes.exe /x:1440 /y:1080
 
       - name: Download app and script
         run: |
