@@ -39,7 +39,7 @@ jobs:
       - name: Set up screen recording dependencies (Windows)
         run: |
           Get-DisplayResolution
-          Set-DisplayResolution -Width 1440 -Height 900 -Force
+          Set-DisplayResolution -Width 1440 -Height 1080 -Force
           Get-DisplayResolution              
 
         
